@@ -30,7 +30,8 @@ export class UserProfileComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProfile();
-    this.getFavMovies();
+    this.user = this.fetchApiData.getUser();
+    this.Favorites = this.user.Favorites
   }
 
 
@@ -111,12 +112,6 @@ export class UserProfileComponentComponent implements OnInit {
     });
   }
 
-  getFavMovies(): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Favorites = this.user.Favorites;
-    this.Favorites = this.user.FavoriteMovies;
-  }
-
   isFav(movie: any): any {
     const MovieID = movie._id;
     if (this.Favorites.some((movie) => movie === MovieID)) {
@@ -134,11 +129,9 @@ export class UserProfileComponentComponent implements OnInit {
   }
 
   addFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
     this.fetchApiData.addFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.getFavMovies();
+      this.Favorites = response.Favorites
       this.snackBar.open('Movie has been added to your favorites!', 'OK', {
         duration: 3000,
       });
@@ -146,11 +139,9 @@ export class UserProfileComponentComponent implements OnInit {
   }
 
   deleteFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
     this.fetchApiData.deleteFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.getFavMovies();
+      this.Favorites = response.Favorites
       this.snackBar.open('Movie has been deleted from your favorites!', 'OK', {
         duration: 3000,
       });

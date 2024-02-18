@@ -4,7 +4,11 @@
     <mat-card-header class="profile-card-header">
       <mat-card-title>{{ userData.Username }}</mat-card-title>
     </mat-card-header>
-    <img src="https://loremflickr.com/325/325" />
+    <img
+      met-card-img
+      src="https://loremflickr.com/325/325"
+      alt="profile-picture"
+    />
     <mat-card-content>
       <p>Email: {{ userData.Email }}</p>
       <p>Birthday: {{ userData.Birthday | date : "longDate" }}</p>
@@ -93,7 +97,7 @@
         <p>You have no favorite movies.</p>
       </div>
     </div>
-    <!-- Favorite Movies Cards Start -->
+    <!-- Favorite Movies -->
     <div class="movie-card-container">
       <mat-card *ngFor="let movie of movies" class="movie-card">
         <mat-card-header>
@@ -165,6 +169,5 @@
         </div>
       </mat-card>
     </div>
-    <!-- Favorite Movies Cards End -->
   </div>
 </div>
