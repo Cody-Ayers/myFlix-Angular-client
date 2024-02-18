@@ -83,7 +83,7 @@ export class FetchApiDataService {
   }
 
 
-  getFavouriteMovies(username: string): Observable<any> {
+  getFavorites(username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'users/' + username, {
       headers: new HttpHeaders(
@@ -93,7 +93,7 @@ export class FetchApiDataService {
     })
   }
 
-  addFavouriteMovies(movie: any): Observable<any> {
+  addFavorites(movie: any): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     console.log('in fetch api service: ', movie);
@@ -128,7 +128,7 @@ export class FetchApiDataService {
     })
   }
 
-  deleteFavouriteMovies(movie: any): Observable<any> {
+  deleteFavorites(movie: any): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     console.log('in fetch api service: ', movie._id);

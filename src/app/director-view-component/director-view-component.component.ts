@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-director-view-component',
   templateUrl: './director-view-component.component.html',
@@ -14,8 +13,8 @@ export class DirectorViewComponentComponent implements OnInit {
     public data: {
       Name: string,
       Bio: string,
-      Birth: string,
-      Death: string
+      BirthDate: Date,
+      DeathDate: Date
     }
   ) { }
 

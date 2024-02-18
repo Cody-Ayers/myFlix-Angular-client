@@ -1,1 +1,15 @@
-<p>navigation-bar works!</p>
+<mat-toolbar class="navigation=bar">
+  <button mat-button (click)="openMovies()">
+    <span class="app-title">Cody's Flix</span>
+  </button>
+  <span class="spacer"></span>
+  <button class="nav-icon-button" mat-icon-button (click)="openMovies()">
+    <mat-icon>local_movies</mat-icon>
+  </button>
+  <button class="nav-icon-button" mat-icon-button (click)="openProfile()">
+    <mat-icon>person_outline</mat-icon>
+  </button>
+  <button class="nav-icon-button" mat-icon-button (click)="logoutUser()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

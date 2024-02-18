@@ -1,17 +1,20 @@
 .movie-card-container {
   display: flex;
   flex-wrap: wrap;
-  margin-right: 2vw;
-  margin-left: 2vw;
+  margin: 8px;
+  padding: 8px;
   justify-content: center;
   margin-top: 11vh;
 }
 .movie-card {
   background-color: rgb(0, 0, 0);
-  margin: 15px;
-  width: 350px;
-  height: 550px;
+  margin: 40px;
+  width: 400px;
+  height: 600px;
   border-radius: 5%;
+}
+.movie-title {
+  font-size: 24px;
 }
 .image-container {
   width: 100%;
@@ -28,8 +31,9 @@
   height: 20%;
   align-items: center;
 }
-.card-title {
-  font-size: 25px;
-  margin-bottom: 10px;
+.genre-button, .director-button, .synopsis-button {
+  font-size: 18px;
+  text-align: center;
+  margin: auto;
+  padding: auto;
 }
-
