@@ -131,7 +131,7 @@ export class UserProfileComponentComponent implements OnInit {
   addFavMovies(movie: any): void {
     this.fetchApiData.addFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.Favorites = response.Favorites
+      this.Favorites = response.Favorites;
       this.snackBar.open('Movie has been added to your favorites!', 'OK', {
         duration: 3000,
       });
@@ -141,7 +141,7 @@ export class UserProfileComponentComponent implements OnInit {
   deleteFavMovies(movie: any): void {
     this.fetchApiData.deleteFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.Favorites = response.Favorites
+      this.Favorites = response.Favorites;
       this.snackBar.open('Movie has been deleted from your favorites!', 'OK', {
         duration: 3000,
       });
