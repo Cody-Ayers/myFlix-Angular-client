@@ -102,9 +102,6 @@
       <mat-card *ngFor="let movie of Favorites" class="movie-card">
         <mat-card-header>
           <mat-card-title class="movie-title">{{ movie.Title }}</mat-card-title>
-          <mat-card-subtitle
-            >Directed by: {{ movie.Director.Name }}</mat-card-subtitle
-          >
         </mat-card-header>
         <div class="image-container">
           <img
@@ -150,19 +147,10 @@
               mat-icon-button
               style="width: auto"
               color="primary"
-              (click)="toggleFav(movie)"
+              (click)="deleteFavMovies(movie)"
             >
-              <mat-icon
-                *ngIf="!isFav(movie)"
-                style="transform: scale(1.5)"
-                color="primary"
+              <mat-icon style="transform: scale(1.5)" color="primary"
                 >favorite_border</mat-icon
-              >
-              <mat-icon
-                *ngIf="isFav(movie)"
-                style="transform: scale(1.5)"
-                color="primary"
-                >favorite</mat-icon
               >
             </button>
           </mat-card-actions>

@@ -26,10 +26,11 @@ export class MovieCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovies();
-    this.user = this.fetchApiData.getUser();
-    this.Favorites = this.user.Favorites
+    this.getFavMovies();
   }
-
+  /** This is a function to get all movies
+   * @returns returns all movies
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
@@ -38,6 +39,10 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
+  /** This is a function to open a dialog box for the Director Information.
+   * @param {string} name, bio, birth, death
+   * @returns Directors name, bio birth and death year.
+   */
   openDirectorDialog(name: string, bio: string, birth: Date, death: Date): void {
     this.dialog.open(DirectorViewComponentComponent, {
       data: {
@@ -70,6 +75,12 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
+  getFavMovies(): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Favorites = this.user.Favorites;
+    this.Favorites = this.user.Favorites;
+  }
+
   isFav(movie: any): any {
     const MovieID = movie._id;
     if (this.Favorites.some((movie) => movie === MovieID)) {
@@ -87,9 +98,11 @@ export class MovieCardComponent implements OnInit {
   }
 
   addFavMovies(movie: any): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Username = this.user.Username;
     this.fetchApiData.addFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.Favorites = response.Favorites;
+      this.getFavMovies();
       this.snackBar.open('Movie has been added to your favorites!', 'OK', {
         duration: 3000,
       });
@@ -97,9 +110,11 @@ export class MovieCardComponent implements OnInit {
   }
 
   deleteFavMovies(movie: any): void {
+    this.user = this.fetchApiData.getUser();
+    this.userData.Username = this.user.Username;
     this.fetchApiData.deleteFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.Favorites = response.Favorites
+      this.getFavMovies();
       this.snackBar.open('Movie has been deleted from your favorites!', 'OK', {
         duration: 3000,
       });
