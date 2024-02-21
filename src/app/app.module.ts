@@ -35,15 +35,25 @@ const appRoutes: Routes = [
 ];
 @NgModule({
   declarations: [
+    /** @component AppComponent */
     AppComponent,
+    /** @component UserRegistrationFormComponent */
     UserRegistrationFormComponent,
+    /** @component UserLoginFormComponent */
     UserLoginFormComponent,
+    /** @component MovieCardComponent */
     MovieCardComponent,
+    /** @component WelcomePageComponent */
     WelcomePageComponent,
+    /** @component DirectorViewComponentComponent */
     DirectorViewComponentComponent,
+    /** @component enreViewComponentComponent */
     GenreViewComponentComponent,
+    /** @component UserProfileComponentComponent */
     UserProfileComponentComponent,
+    /** @component MovieDescriptionComponentComponent */
     MovieDescriptionComponentComponent,
+    /** @component NavigationBarComponent */
     NavigationBarComponent
   ],
   imports: [

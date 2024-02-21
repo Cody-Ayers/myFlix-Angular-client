@@ -24,6 +24,10 @@
       "dom"
     ]
   },
+  "typedocOptions": {
+    "entryPoints": ["src/app/director-view-component/director-view-component.component.ts", "src/app/genre-view-component/genre-view-component.component.ts", "src/app/movie-card/movie-card.component.ts", "src/app/movie-description-component/movie-description-component.component.ts", "src/app/navigation-bar/navigation-bar.component.ts", "src/app/user-login-form/user-login-form.component.ts", "src/app/user-profile-component/user-profile-component.component.ts", "src/app/user-registration-form/user-registration-form.component.ts", "src/app/welcome-page/welcome-page.component.ts", "src/app/app.component.ts"],
+    "out": "docs"
+  },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
