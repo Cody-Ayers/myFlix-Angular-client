@@ -1,0 +1,103 @@
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.user-card {
+  background-color: black;
+  border-radius: 5%;
+  margin-top: 15vh;
+  margin-right: 2vw;
+  padding: 25px;
+  width: 20%;
+  min-width: 380px;
+}
+.user-card img {
+  width: 100%;
+  height: 68%;
+  padding: 5px;
+  object-fit: cover;
+  object-position: 100% 0;
+  border-radius: 25%;
+}
+.profile-card-header {
+  font-size: 25px;
+  margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+}
+.edit-userdata-card {
+  background-color: black;
+  border-radius: 5%;
+  margin-top: 15vh;
+  padding: 25;
+  width: 60%;
+  min-width: 380px;
+}
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+}
+.actions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.actions button {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 25%;
+}
+h3 {
+  font-size: 50px;
+}
+
+.fav-movies-cards{
+  min-width: 380px;
+  width: 90%;
+  margin-top: 5vh;
+  padding: 25px;
+  justify-content: center;
+  text-align: center;
+}
+.movie-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 8px;
+  padding: 8px;
+  justify-content: center;
+  margin-top: 11vh;
+}
+.movie-card {
+  background-color: rgb(0, 0, 0);
+  margin: 40px;
+  width: 400px;
+  height: 600px;
+  border-radius: 5%;
+}
+.movie-title {
+  font-size: 24px;
+}
+.image-container {
+  width: 100%;
+  height: 80%;
+}
+.movie-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: 100% 0;
+}
+.card-header {
+  margin-bottom: 5px;
+  height: 20%;
+  align-items: center;
+}
+.genre-button, .director-button, .synopsis-button {
+  font-size: 18px;
+  text-align: center;
+  margin: auto;
+  padding: auto;
+}
+
