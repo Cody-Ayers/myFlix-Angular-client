@@ -33,21 +33,22 @@ export class UserRegistrationFormComponent implements OnInit {
   }
 
   /**
-    * component for sending inputs to the APU
+    * component for sending inputs to the API
     * @returns 'User registration successful' / 'User registration failed' notification
     */
   registerUser(): void {
-    this.fetchApiData.userRegistration(this.userData).subscribe((response) => {
-      // Logic for a successful user registration goes here! (To be implemented)
-      this.dialogRef.close();
-      console.log(response); // This will close the modal on success!
-      this.snackBar.open(response, 'User registration successful', {
-        duration: 2000
-      });
-    }, (response) => {
-      this.snackBar.open(response, 'User registration failed', {
-        duration: 2000
-      });
+    this.fetchApiData.userRegistration(this.userData).subscribe({
+      next: () => {
+        this.dialogRef.close(); // Close the modal on success
+        this.snackBar.open('Registration successful! You can log in now.', 'OK', {
+          duration: 3000
+        });
+      },
+      error: () => {
+        this.snackBar.open('Registration failed. Please check your details and try again.', 'OK', {
+          duration: 3000
+        });
+      }
     });
   }
 

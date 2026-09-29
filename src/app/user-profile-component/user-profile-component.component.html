@@ -1,161 +1,73 @@
 <app-navigation-bar></app-navigation-bar>
-<div class="profile-container">
-  <mat-card class="user-card">
-    <mat-card-header class="profile-card-header">
-      <mat-card-title>{{ userData.Username }}</mat-card-title>
-    </mat-card-header>
-    <img
-      met-card-img
-      src="https://loremflickr.com/325/325"
-      alt="profile-picture"
-    />
-    <mat-card-content>
-      <p>Email: {{ userData.Email }}</p>
-      <p>Birthday: {{ userData.Birthday | date : "longDate" }}</p>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="edit-userdata-card">
-    <mat-card-header class="profile-card-header">
-      <mat-card-title>Update Profile</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form>
-        <label>Username:</label>
-        <mat-form-field class="form-inputs">
-          <input
-            matInput
-            [(ngModel)]="userData.Username"
-            placeholder="Username"
-            type="text"
-            name="Username"
-            required
-          />
+<main class="page">
+  <h1 class="page-title">Your profile</h1>
+  <p class="page-sub">Manage your account details and revisit your favorites.</p>
+
+  <div class="profile-layout">
+    <mat-card class="panel identity">
+      <div class="avatar" aria-hidden="true">{{ initials }}</div>
+      <h2>{{ user.Username }}</h2>
+      <p class="muted">{{ user.Email }}</p>
+      <p class="muted" *ngIf="user.Birthday">Born {{ user.Birthday | date : "longDate" }}</p>
+      <p class="stat"><strong>{{ Favorites.length }}</strong> favorite {{ Favorites.length === 1 ? "movie" : "movies" }}</p>
+    </mat-card>
+
+    <mat-card class="panel">
+      <h2>Update profile</h2>
+      <form class="edit-form" (ngSubmit)="updateUser()">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="userData.Username" name="Username" type="text" autocomplete="username" required />
         </mat-form-field>
-        <label>Password:</label>
-        <mat-form-field class="form-inputs">
-          <input
-            matInput
-            [(ngModel)]="userData.Password"
-            placeholder="Password"
-            type="text"
-            name="Password"
-            required
-          />
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="userData.Password" name="Password" type="password" autocomplete="new-password" required />
+          <mat-hint>Enter your password (or a new one) to save changes</mat-hint>
         </mat-form-field>
-        <label>Email:</label>
-        <mat-form-field class="form-inputs">
-          <input
-            matInput
-            [(ngModel)]="userData.Email"
-            placeholder="Email"
-            type="email"
-            name="Email"
-            required
-          />
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="userData.Email" name="Email" type="email" autocomplete="email" required />
         </mat-form-field>
-        <label>Birthday:</label>
-        <mat-form-field class="form-inputs">
-          <input
-            matInput
-            [(ngModel)]="userData.Birthday"
-            placeholder="Birthday"
-            type="date"
-            name="Birthday"
-            required
-          />
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Birthday</mat-label>
+          <input matInput [(ngModel)]="userData.Birthday" name="Birthday" type="date" />
         </mat-form-field>
-      </form>
-      <mat-card-actions class="actions">
-        <button
-          mat-raised-button
-          class="button-profile"
-          color="warn"
-          (click)="deleteUser()"
-        >
-          Delete
-        </button>
-        <button
-          mat-raised-button
-          class="button-profile"
-          color="primary"
-          (click)="updateUser()"
-          type="submit"
-        >
-          Update
-        </button>
-      </mat-card-actions>
-    </mat-card-content>
-  </mat-card>
-  <div class="fav-movies-cards">
-    <div class="profile-card-header">
-      <h3>Favorite Movies</h3>
-      <div
-        *ngIf="Favorites.length === 0"
-        class="movie-card-container"
-        style="font-size: 18px"
-      >
-        <p>You have no favorite movies.</p>
-      </div>
-    </div>
-    <!-- Favorite Movies -->
-    <div class="movie-card-container">
-      <mat-card *ngFor="let movie of Favorites" class="movie-card">
-        <mat-card-header>
-          <mat-card-title class="movie-title">{{ movie.Title }}</mat-card-title>
-        </mat-card-header>
-        <div class="image-container">
-          <img
-            mat-card-image
-            src="{{ movie.ImageURL }}"
-            alt="{{ movie.Title }}"
-          />
-          <mat-card-actions>
-            <button
-              class="genre-button"
-              mat-button
-              (click)="
-                openGenreDialog(movie.Genre.Name, movie.Genre.Description)
-              "
-              color="primary"
-            >
-              Genre
-            </button>
-            <button
-              class="director-button"
-              mat-button
-              (click)="
-                openDirectorDialog(
-                  movie.Director.Name,
-                  movie.Director.Bio,
-                  movie.Director.BirthDate,
-                  movie.Director.DeathDate
-                )
-              "
-              color="primary"
-            >
-              Director
-            </button>
-            <button
-              class="synopsis-button"
-              mat-button
-              (click)="openSynopsisDialog(movie.Title, movie.Description)"
-              color="primary"
-            >
-              Synopsis
-            </button>
-            <button
-              mat-icon-button
-              style="width: auto"
-              color="primary"
-              (click)="deleteFavMovies(movie)"
-            >
-              <mat-icon style="transform: scale(1.5)" color="primary"
-                >favorite_border</mat-icon
-              >
-            </button>
-          </mat-card-actions>
+        <div class="actions">
+          <button mat-stroked-button color="warn" type="button" (click)="deleteUser()">Delete account</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="!userData.Password">Save changes</button>
         </div>
-      </mat-card>
-    </div>
+      </form>
+    </mat-card>
   </div>
-</div>
+
+  <h2 class="section-title">Favorite movies</h2>
+  <p class="empty" *ngIf="Favorites.length === 0">
+    You haven't favorited any movies yet. Head to
+    <a routerLink="/movies">Movies</a> and tap the heart.
+  </p>
+
+  <div class="movie-grid">
+    <mat-card *ngFor="let movie of Favorites" class="movie-card">
+      <img class="movie-poster" [src]="movie.ImageURL" [alt]="movie.Title" loading="lazy" />
+      <div class="movie-info">
+        <h3 class="movie-title">{{ movie.Title }}</h3>
+        <p class="movie-director">Directed by {{ movie.Director.Name }}</p>
+      </div>
+      <div class="movie-actions">
+        <button mat-button (click)="openGenreDialog(movie.Genre.Name, movie.Genre.Description)">
+          Genre
+        </button>
+        <button mat-button (click)="openDirectorDialog(movie.Director.Name, movie.Director.Bio, movie.Director.BirthDate, movie.Director.DeathDate)">
+          Director
+        </button>
+        <button mat-button (click)="openSynopsisDialog(movie.Title, movie.Description)">
+          Synopsis
+        </button>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="deleteFavMovies(movie)" matTooltip="Remove from favorites" aria-label="Remove from favorites">
+          <mat-icon class="fav">favorite</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</main>

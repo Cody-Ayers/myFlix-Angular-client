@@ -1,23 +1,22 @@
-<div class="main-page">
-  <h1>Welcome to Cody's Flix!</h1>
-  <div class="buttons">
-    <button
-      mat-raised-button
-      class="signup-button"
-      (click)="openUserRegistrationDialog()"
-      style="margin-right: 10px"
-      color="primary"
-    >
-      Sign Up
-    </button>
-    <button
-      mat-raised-button
-      class="login-button"
-      (click)="openUserLoginDialog()"
-      style="margin-right: 10px"
-      color="primary"
-    >
-      Login
-    </button>
+<main class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Movie discovery</p>
+    <h1>Cody's <span>Flix</span></h1>
+    <p class="tagline">
+      Browse films, explore directors and genres, and keep a list of the ones
+      you love.
+    </p>
+    <div class="cta">
+      <button mat-flat-button color="primary" (click)="openUserRegistrationDialog()">
+        Sign up
+      </button>
+      <button mat-stroked-button (click)="openUserLoginDialog()">Log in</button>
+    </div>
   </div>
-</div>
+  <footer class="hero-foot">
+    Built by Cody Ayers with Angular &amp; Angular Material &middot;
+    <a href="https://github.com/Cody-Ayers/myFlix-Angular-client" target="_blank" rel="noopener">Source code</a>
+    &middot;
+    <a href="https://cody-ayers.github.io/PortfolioWebsite/" target="_blank" rel="noopener">Portfolio</a>
+  </footer>
+</main>

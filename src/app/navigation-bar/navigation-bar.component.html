@@ -1,15 +1,13 @@
-<mat-toolbar class="navigation=bar">
-  <button mat-button (click)="openMovies()">
-    <span class="app-title">Cody's Flix</span>
-  </button>
+<mat-toolbar class="nav">
+  <a class="brand" routerLink="/movies">Cody's <span>Flix</span></a>
   <span class="spacer"></span>
-  <button class="nav-icon-button" mat-icon-button (click)="openMovies()">
-    <mat-icon>local_movies</mat-icon>
-  </button>
-  <button class="nav-icon-button" mat-icon-button (click)="openProfile()">
-    <mat-icon>person_outline</mat-icon>
-  </button>
-  <button class="nav-icon-button" mat-icon-button (click)="logoutUser()">
-    <mat-icon>logout</mat-icon>
+  <a mat-button routerLink="/movies" routerLinkActive="active">
+    <mat-icon>local_movies</mat-icon><span class="label">Movies</span>
+  </a>
+  <a mat-button routerLink="/profile" routerLinkActive="active">
+    <mat-icon>person_outline</mat-icon><span class="label">Profile</span>
+  </a>
+  <button mat-button (click)="logoutUser()">
+    <mat-icon>logout</mat-icon><span class="label">Log out</span>
   </button>
 </mat-toolbar>

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,12 +12,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -27,12 +27,6 @@ import { UserProfileComponentComponent } from './user-profile-component/user-pro
 import { MovieDescriptionComponentComponent } from './movie-description-component/movie-description-component.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
-const appRoutes: Routes = [
-  { path: 'welcome', component: WelcomePageComponent },
-  { path: 'movies', component: MovieCardComponent },
-  { path: 'profile', component: UserProfileComponentComponent },
-  { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
-];
 @NgModule({
   declarations: [
     /** @component AppComponent */
@@ -47,7 +41,7 @@ const appRoutes: Routes = [
     WelcomePageComponent,
     /** @component DirectorViewComponentComponent */
     DirectorViewComponentComponent,
-    /** @component enreViewComponentComponent */
+    /** @component GenreViewComponentComponent */
     GenreViewComponentComponent,
     /** @component UserProfileComponentComponent */
     UserProfileComponentComponent,
@@ -57,13 +51,11 @@ const appRoutes: Routes = [
     NavigationBarComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes),
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     FormsModule,
-    MatButtonModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -71,7 +63,9 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

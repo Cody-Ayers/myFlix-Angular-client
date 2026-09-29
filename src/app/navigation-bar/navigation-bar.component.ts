@@ -27,20 +27,10 @@ export class NavigationBarComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  /** This routes the user to the Main View */
-  public openMovies(): void {
-    this.router.navigate(['movies']);
-  }
-
-  /** This routes the user to their Profile Page */
-  public openProfile(): void {
-    this.router.navigate(['profile']);
-  }
-
   /** This will allow the user to sign out of the app */
   public logoutUser(): void {
-    localStorage.setItem('user', '');
-    localStorage.setItem('token', '');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.router.navigate(['welcome']);
     this.snackBar.open('User logout successful', 'OK', {
       duration: 2000

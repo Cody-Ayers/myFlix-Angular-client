@@ -8,6 +8,7 @@ import { MovieDescriptionComponentComponent } from '../movie-description-compone
 import { GenreViewComponentComponent } from '../genre-view-component/genre-view-component.component';
 
 import { FetchApiDataService } from '../fetch-api-data.service';
+import { Movie, User, UserUpdate } from '../models';
 
 /**
  * @description Component for the Profile Page
@@ -21,11 +22,10 @@ import { FetchApiDataService } from '../fetch-api-data.service';
   styleUrls: ['./user-profile-component.component.scss']
 })
 export class UserProfileComponentComponent implements OnInit {
-  @Input() userData = { Username: "", Password: "", Email: "", Birthday: "", Favorites: [] };
+  @Input() userData: UserUpdate = { Username: '', Password: '', Email: '', Birthday: '' };
 
-  user: any = {};
-  movies: any[] = [];
-  Favorites: any[] = [];
+  user: User = { Username: '', Email: '', Favorites: [] };
+  Favorites: Movie[] = [];
 
   /**
   * @constructor - Constructor for UserProfileComponentComponent.
@@ -43,7 +43,11 @@ export class UserProfileComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProfile();
-    this.getFavMovies();
+  }
+
+  /** Initials shown in the avatar circle */
+  get initials(): string {
+    return (this.user.Username || '?').slice(0, 2).toUpperCase();
   }
 
   /** This is the component that gets the users profile
@@ -53,27 +57,31 @@ export class UserProfileComponentComponent implements OnInit {
     this.user = this.fetchApiData.getUser();
     this.userData.Username = this.user.Username;
     this.userData.Email = this.user.Email;
-    this.userData.Birthday = this.user.Birthday;
-    this.fetchApiData.getAllMovies().subscribe((response) => {
-      this.Favorites = response.filter((movie: any) => this.user.Favorites.includes(movie._id));
+    // date inputs need yyyy-MM-dd, the API sends a full ISO string
+    this.userData.Birthday = this.user.Birthday ? String(this.user.Birthday).slice(0, 10) : '';
+    this.fetchApiData.getAllMovies().subscribe((response: Movie[]) => {
+      this.Favorites = response.filter((movie) => this.user.Favorites.includes(movie._id));
     });
   }
 
-  /** This is the component that allows the user to update their username
+  /** This is the component that allows the user to update their profile
    * @returns a 'User update successful' or 'Failed to update user' notification
   */
   updateUser(): void {
-    this.fetchApiData.editUser(this.userData).subscribe((response) => {
-      console.log('User update success:', response);
-      localStorage.setItem('user', JSON.stringify(response));
-      this.snackBar.open('User update successful', 'OK', {
-        duration: 2000
-      });
-    }, (error) => {
-      console.error('Error updating user:', error);
-      this.snackBar.open('Failed to update user', 'OK', {
-        duration: 2000
-      });
+    this.fetchApiData.editUser(this.userData).subscribe({
+      next: (response) => {
+        localStorage.setItem('user', JSON.stringify(response));
+        this.user = this.fetchApiData.getUser();
+        this.userData.Password = '';
+        this.snackBar.open('User update successful', 'OK', {
+          duration: 2000
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to update user', 'OK', {
+          duration: 2000
+        });
+      }
     });
   }
 
@@ -81,35 +89,24 @@ export class UserProfileComponentComponent implements OnInit {
    * @returns 'User successfully deleted' notification
    */
   deleteUser(): void {
-    this.router.navigate(['welcome']).then(() => {
-      localStorage.clear();
-      this.snackBar.open('User successfully deleted.', 'OK', {
-        duration: 2000
-      });
-    })
-    this.fetchApiData.deleteUser().subscribe((response) => {
-      console.log(response);
+    if (!confirm('Delete your account? This cannot be undone.')) {
+      return;
+    }
+    this.fetchApiData.deleteUser().subscribe({
+      next: () => {
+        localStorage.clear();
+        this.router.navigate(['welcome']).then(() => {
+          this.snackBar.open('User successfully deleted.', 'OK', {
+            duration: 2000
+          });
+        });
+      },
+      error: () => {
+        this.snackBar.open('Could not delete your account. Please try again.', 'OK', {
+          duration: 3000
+        });
+      }
     });
-  }
-
-  /** This component retrieves all movies from the API
-   * @returns All movies from API
-   */
-  getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
-      console.log(this.movies);
-      return this.movies;
-    });
-  }
-
-  /** This calls the favorite movies for the user
-   * @returns Users favorite movies
-  */
-  getFavMovies(): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Favorites = this.user.Favorites;
-    this.Favorites = this.user.Favorites;
   }
 
   /** This opens a dialog box for the Director Information.
@@ -119,7 +116,7 @@ export class UserProfileComponentComponent implements OnInit {
    * @param {string} DeathDate
    * @returns Directors name, bio birth and death year.
    */
-  openDirectorDialog(name: string, bio: string, birth: Date, death: Date): void {
+  openDirectorDialog(name: string, bio: string, birth?: string | null, death?: string | null): void {
     this.dialog.open(DirectorViewComponentComponent, {
       data: {
         Name: name,
@@ -161,31 +158,15 @@ export class UserProfileComponentComponent implements OnInit {
     });
   }
 
-  /** Finds if the the movie is a Favorite or not
-   * @param {any} Movie
-   * @returns {boolean} if the movie is a favorite or not
-   */
-  isFav(movie: any): any {
-    const MovieID = movie._id;
-    if (this.Favorites.some((movie) => movie === MovieID)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   /** This will delete the movie from the users Favorites on their profile
-   * @param {any} Movie
+   * @param {Movie} movie
    * @returns 'Movie has been deleted from your favorites!' notification
    */
-  deleteFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this, this.userData = this.user.Username;
+  deleteFavMovies(movie: Movie): void {
     this.fetchApiData.deleteFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
-      this.getFavMovies();
       this.getProfile();
-      this.snackBar.open('Movie has been deleted from your favorites!', 'OK', {
+      this.snackBar.open('Movie has been removed from your favorites!', 'OK', {
         duration: 3000,
       });
     });

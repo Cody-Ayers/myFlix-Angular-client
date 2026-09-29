@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DirectorViewComponentComponent } from '../director-view-component/director-view-component.component';
 import { FetchApiDataService } from '../fetch-api-data.service';
+import { Movie, User } from '../models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenreViewComponentComponent } from '../genre-view-component/genre-view-component.component';
 import { MovieDescriptionComponentComponent } from '../movie-description-component/movie-description-component.component';
@@ -18,11 +19,13 @@ import { MovieDescriptionComponentComponent } from '../movie-description-compone
   styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent implements OnInit {
-  movies: any[] = [];
-  user: any = {};
-  userData = { Username: "", Favorites: [] };
-  Favorites: any[] = [];
-  isFavMovie: boolean = false;
+  movies: Movie[] = [];
+  user: User = { Username: '', Email: '', Favorites: [] };
+  Favorites: string[] = [];
+  /** true while the movie list is loading */
+  loading = true;
+  /** true if the movie list could not be loaded */
+  loadFailed = false;
 
   /**
    * @constructor
@@ -44,10 +47,15 @@ export class MovieCardComponent implements OnInit {
    * @returns returns all movies
    */
   getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
-      console.log(this.movies);
-      return this.movies;
+    this.fetchApiData.getAllMovies().subscribe({
+      next: (resp: Movie[]) => {
+        this.movies = resp;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.loadFailed = true;
+      }
     });
   }
 
@@ -58,7 +66,7 @@ export class MovieCardComponent implements OnInit {
    * @param {string} DeathDate
    * @returns Directors name, bio birth and death year.
    */
-  openDirectorDialog(name: string, bio: string, birth: Date, death: Date): void {
+  openDirectorDialog(name: string, bio: string, birth?: string | null, death?: string | null): void {
     this.dialog.open(DirectorViewComponentComponent, {
       data: {
         Name: name,
@@ -105,40 +113,31 @@ export class MovieCardComponent implements OnInit {
   */
   getFavMovies(): void {
     this.user = this.fetchApiData.getUser();
-    this.userData.Favorites = this.user.Favorites;
     this.Favorites = this.user.Favorites;
   }
 
   /** Finds if the the movie is a Favorite or not
-   * @param {any} Movie
+   * @param {Movie} movie
    * @returns {boolean} if the movie is a favorite or not
    */
-  isFav(movie: any): any {
-    const MovieID = movie._id;
-    if (this.Favorites.some((movie) => movie === MovieID)) {
-      return true;
-    } else {
-      return false;
-    }
+  isFav(movie: Movie): boolean {
+    return this.Favorites.includes(movie._id);
   }
 
   /** This is the add or delete fav icon
-   * @param {any} Movie
+   * @param {Movie} movie
    */
-  toggleFav(movie: any): void {
-    const isFavorite = this.isFav(movie);
-    isFavorite
+  toggleFav(movie: Movie): void {
+    this.isFav(movie)
       ? this.deleteFavMovies(movie)
       : this.addFavMovies(movie);
   }
 
   /** This will add a movie to the users Favorites on their profile
-   * @param {any} Movie
+   * @param {Movie} movie
    * @returns 'Movie has been added to your favorites!' notification
   */
-  addFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
+  addFavMovies(movie: Movie): void {
     this.fetchApiData.addFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
@@ -149,12 +148,10 @@ export class MovieCardComponent implements OnInit {
   }
 
   /** This will delete the movie from the users Favorites on their profile
-   * @param {any} Movie
+   * @param {Movie} movie
    * @returns 'Movie has been deleted from your favorites!' notification
    */
-  deleteFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getUser();
-    this.userData.Username = this.user.Username;
+  deleteFavMovies(movie: Movie): void {
     this.fetchApiData.deleteFavorites(movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();

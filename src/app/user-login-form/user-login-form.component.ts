@@ -38,19 +38,21 @@ export class UserLoginFormComponent implements OnInit {
 
   /** This is the component that lets the user log in if they have a username and password */
   loginUser(): void {
-    this.fetchApiData.userLogin(this.userData).subscribe((response) => {
-      //Logic for a successful user login
-      localStorage.setItem('user', JSON.stringify(response.user));
-      localStorage.setItem('token', response.token);
-      this.dialogRef.close(); // Will close modal on success
-      this.snackBar.open(response, 'User login successful', {
-        duration: 2000
-      });
-      this.router.navigate(['movies']);
-    }, (response) => {
-      this.snackBar.open(response, 'User login failed', {
-        duration: 2000
-      });
+    this.fetchApiData.userLogin(this.userData).subscribe({
+      next: (response) => {
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('token', response.token);
+        this.dialogRef.close(); // Will close modal on success
+        this.snackBar.open(`Welcome back, ${response.user.Username}!`, 'OK', {
+          duration: 2000
+        });
+        this.router.navigate(['movies']);
+      },
+      error: () => {
+        this.snackBar.open('Login failed. Check your username and password.', 'OK', {
+          duration: 3000
+        });
+      }
     });
   }
 

@@ -1,8 +1,7 @@
-<div class="genre-card">
-  <mat-card-header class="genre-card-header">
-    <mat-card-title>{{ data.Name }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="genre-card-content">
-    <p>{{ data.Description }}</p>
-  </mat-card-content>
-</div>
+<h2 mat-dialog-title>{{ data.Name }}</h2>
+<mat-dialog-content>
+  <p>{{ data.Description }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

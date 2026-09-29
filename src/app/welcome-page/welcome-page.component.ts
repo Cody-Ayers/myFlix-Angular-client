@@ -30,7 +30,8 @@ export class WelcomePageComponent implements OnInit {
    */
   openUserRegistrationDialog(): void {
     this.dialog.open(UserRegistrationFormComponent, {
-      width: '300px'
+      width: '420px',
+      maxWidth: '92vw'
     });
   }
 
@@ -39,7 +40,8 @@ export class WelcomePageComponent implements OnInit {
    */
   openUserLoginDialog(): void {
     this.dialog.open(UserLoginFormComponent, {
-      width: '300px'
+      width: '420px',
+      maxWidth: '92vw'
     });
   }
 

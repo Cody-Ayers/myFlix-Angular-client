@@ -1,20 +1,17 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Login!</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form>
-      <mat-form-field>
-        <input matInput [(ngModel)]="userData.Username" placeholder="Username" type="text" name="Username" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [(ngModel)]="userData.Password" type="password" placeholder="Password" name="Password" required>
-      </mat-form-field>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="loginUser()" color="primary">
-      Login
-    </button>
-  </mat-card-actions>
-</mat-card>
+<h2 mat-dialog-title>Log in</h2>
+<form class="dialog-form" (ngSubmit)="loginUser()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="userData.Username" name="Username" type="text" autocomplete="username" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="userData.Password" name="Password" type="password" autocomplete="current-password" required />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Log in</button>
+  </mat-dialog-actions>
+</form>

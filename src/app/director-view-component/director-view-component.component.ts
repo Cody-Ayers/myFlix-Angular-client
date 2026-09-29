@@ -30,8 +30,8 @@ export class DirectorViewComponentComponent implements OnInit {
     public data: {
       Name: string,
       Bio: string,
-      BirthDate: Date,
-      DeathDate: Date
+      BirthDate?: string | null,
+      DeathDate?: string | null
     }
   ) { }
 
